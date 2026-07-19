@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MeLifeCoaching</string>
+    <string name="title_activity_main">MeLifeCoaching</string>
+    <string name="package_name">com.melifecoaching.app</string>
+    <string name="custom_url_scheme">com.melifecoaching.app</string>
+</resources>

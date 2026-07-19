@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "375595864401",
+    "project_id": "melifecoaching-v1",
+    "storage_bucket": "melifecoaching-v1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375595864401:android:e2c918fe90afb62b030370",
+        "android_client_info": {
+          "package_name": "com.melifecoaching.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0cYqSPp-Gt8brNwzYN_5_U_BC8d_VsSw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

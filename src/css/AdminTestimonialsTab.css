@@ -1,0 +1,458 @@
+/* ─── Container ─────────────────────────────────────────────────── */
+.att-page {
+  min-height: 100%;
+  background: #000;
+  padding: 40px 20px;
+  color: #f1f5f9;
+}
+
+.att-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.att-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.72rem;
+  color: #888;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.att-title {
+  color: #f1f5f9;
+  font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.02em;
+}
+
+.att-subtitle {
+  color: #555;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* ─── Two-column layout (used when there are pending testimonials) ─ */
+.att-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .att-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Grid layout (used when there's nothing pending) ──────────────── */
+.att-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.att-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #d1d5db;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.att-count-pill {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.att-empty {
+  color: #444;
+  font-size: 0.85rem;
+  font-style: italic;
+  padding: 12px 0;
+}
+
+/* ─── Card ──────────────────────────────────────────────────────── */
+.att-card {
+  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.02);
+  border-radius: 18px;
+  padding: 20px 22px;
+  margin-bottom: 14px;
+  transition: border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.att-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* Cards inside the grid layout don't need the list's bottom margin
+   since the grid's `gap` handles spacing. */
+.att-grid .att-card {
+  margin-bottom: 0;
+  height: 100%;
+}
+
+.att-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.att-identity {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.att-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.att-avatar-fallback {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #ccc;
+}
+
+.att-name {
+  font-weight: 600;
+  color: #f1f5f9;
+  font-size: 0.98rem;
+}
+
+.att-role {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 1px;
+}
+
+.att-stars {
+  color: #f59e0b;
+  margin-top: 4px;
+  font-size: 0.85rem;
+}
+
+.att-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+.att-status-badge--pending {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.25);
+  color: #f59e0b;
+}
+
+.att-status-badge--published {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.25);
+  color: #4ade80;
+}
+
+.att-quote {
+  color: #a3a3a3;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  font-style: italic;
+  margin: 14px 0 0 0;
+  white-space: pre-wrap;
+  flex-grow: 1;
+}
+
+.att-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 16px 0 12px 0;
+}
+
+.att-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.att-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.04);
+  color: #ccc;
+  transition: all 0.2s;
+}
+
+.att-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.att-btn--publish {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.2);
+}
+
+.att-btn--unpublish {
+  color: #f59e0b;
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.att-btn--edit {
+  color: #93c5fd;
+  border-color: rgba(147, 197, 253, 0.2);
+}
+
+.att-btn--delete {
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.2);
+}
+
+.att-loading {
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  background: #000;
+}
+
+/* ─── Edit modal ────────────────────────────────────────────────── */
+.att-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.att-modal {
+  width: 100%;
+  max-width: 460px;
+  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.04);
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.att-modal-title {
+  color: #f1f5f9;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+}
+
+.att-field {
+  margin-bottom: 16px;
+}
+
+.att-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.att-input,
+.att-textarea,
+.att-select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: #f1f5f9;
+  font-size: 0.9rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.att-input:focus,
+.att-textarea:focus,
+.att-select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.att-textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.5;
+}
+
+.att-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.att-modal-btn {
+  border-radius: 999px;
+  padding: 9px 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s;
+}
+
+.att-modal-btn--cancel {
+  background: transparent;
+  color: #888;
+}
+
+.att-modal-btn--cancel:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.att-modal-btn--save {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.att-modal-btn--save:hover {
+  background: #e5e5e5;
+}
+
+.att-modal-btn--save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Confirm dialog ────────────────────────────────────────────── */
+.att-confirm-modal {
+  width: 100%;
+  max-width: 380px;
+  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.04);
+  text-align: center;
+}
+
+.att-confirm-title {
+  color: #f1f5f9;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+}
+
+.att-confirm-message {
+  color: #999;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 0 0 22px 0;
+}
+
+.att-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.att-confirm-btn {
+  border-radius: 999px;
+  padding: 9px 22px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.att-confirm-btn--cancel {
+  background: transparent;
+  color: #888;
+}
+
+.att-confirm-btn--cancel:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.att-confirm-btn--danger {
+  background: #f87171;
+  color: #1a0505;
+  border-color: #f87171;
+  font-weight: 600;
+}
+
+.att-confirm-btn--danger:hover {
+  background: #fca5a5;
+}
+
+.att-confirm-btn--primary {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+  font-weight: 600;
+}
+
+.att-confirm-btn--primary:hover {
+  background: #e5e5e5;
+}

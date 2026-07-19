@@ -1,0 +1,274 @@
+/* ════════════════════════════════════════════════════════════════
+   profile.css
+   Profile-specific styles extracted from adminDashboard.css
+   + new styles for Contact Us, Assignments, and nav rows.
+════════════════════════════════════════════════════════════════ */
+
+/* ── Profile card wrapper ──────────────────────────────────────── */
+.sa-card-profile {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform 0.2s;
+  animation: fadeIn 0.3s ease-out backwards;
+}
+
+/* ── Page wrappers ─────────────────────────────────────────────── */
+.profile-overview,
+.profile-settings {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-bottom: 32px;
+
+}
+
+/* Admin/superadmin: extra bottom clearance to avoid footer overlap */
+.profile-overview--admin,
+.profile-settings--admin {
+  padding-bottom: max(96px, calc(72px + env(safe-area-inset-bottom, 0px) + 32px));
+  position: relative;
+  margin-bottom: 50px;
+}
+
+.profile-overview button:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* ── Avatar initials fallback ──────────────────────────────────── */
+.avatar-initials {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #333, #111);
+  border-radius: 50%;
+  border: 1px solid #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+/* ── Back button (shared across sub-views) ─────────────────────── */
+.profile-back-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid #333;
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.profile-back-btn:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ── Menu rows (Settings / Contact / Logout) ───────────────────── */
+.profile-menu-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.profile-menu-icon {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.profile-menu-icon--danger {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ── Session rows (clickable) ──────────────────────────────────── */
+.profile-session-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-bottom: 1px solid #1a1a1a;
+  border-radius: 6px;
+  background: transparent;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s;
+}
+.profile-session-row:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+.profile-session-row:last-child {
+  border-bottom: none;
+}
+
+/* ── Assignment rows (Assignments view) ────────────────────────── */
+.profile-assignment-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: #161616;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  text-align: left;
+}
+.profile-assignment-row:hover {
+  background: #1d1d1d !important;
+  border-color: #333;
+}
+
+/* ── Contact Us ────────────────────────────────────────────────── */
+.profile-contact-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 4px;
+  text-decoration: none;
+  transition: background 0.15s;
+  border-radius: 8px;
+  margin: 0 -4px;
+}
+.profile-contact-block:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.profile-contact-block-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-contact-block-label {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #555;
+}
+
+.profile-contact-block-value {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  word-break: break-all;
+}
+
+/* ── Status badges (reused from adminDashboard) ────────────────── */
+.status-badge {
+  font-size: 0.65rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-block;
+  white-space: nowrap;
+}
+.status-badge.completed { color: #22c55e; background: rgba(34, 197, 94, 0.1); }
+.status-badge.locked    { color: #555;    background: rgba(255, 255, 255, 0.05); }
+.status-badge.active    { color: #3b82f6; background: rgba(59, 130, 246, 0.1); }
+.status-badge.granted   { color: #a855f7; background: rgba(168, 85, 247, 0.1); }
+.status-badge.pending   { color: #facc15; background: rgba(250, 204, 21, 0.1); }
+
+/* ── Inputs (reused from adminDashboard) ───────────────────────── */
+.input {
+  width: 100%;
+  background: #000;
+  border: 1px solid var(--border);
+  color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+  margin-bottom: 12px;
+}
+.input:focus {
+  border-color: #666;
+  outline: none;
+}
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+.full-width { width: 100%; }
+
+/* ── Buttons (reused from adminDashboard) ──────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  font-size: 0.85rem;
+  gap: 8px;
+}
+.btn-primary         { background: #fff;         color: #050505; }
+.btn-primary:hover   { background: #e5e5e5; }
+.btn-outline         { background: transparent;  border: 1px solid #444; color: #fff; }
+.btn-outline:hover   { border-color: #fff; }
+
+/* ── Grid ──────────────────────────────────────────────────────── */
+.sa-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* ── Animations ────────────────────────────────────────────────── */
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* ── PWA profile wrapper ───────────────────────────────────────── */
+.sa-container.pwa-mode .profile-pwa-wrapper {
+  padding-top: 16px;
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ── Mobile ────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sa-card-profile {
+    width: 90vw;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .profile-contact-info-row {
+    flex-direction: column;
+  }
+}

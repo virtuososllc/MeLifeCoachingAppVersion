@@ -1,0 +1,283 @@
+/* ─── Splash Page ───────────────────────────────────────────────── */
+.pwa-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.pwa-splash--visible {
+  opacity: 1;
+}
+
+/* ─── Skip Button ───────────────────────────────────────────────── */
+.pwa-skip-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  color: #aaa;
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.pwa-skip-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+/* ─── Logo ──────────────────────────────────────────────────────── */
+.pwa-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.pwa-logo-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.pwa-logo-text {
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ─── Day Badge ─────────────────────────────────────────────────── */
+.pwa-day-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.72rem;
+  color: #888;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+/* ─── Flip Card ─────────────────────────────────────────────────── */
+.pwa-card-wrapper {
+  width: 100%;
+  max-width: 420px;
+  perspective: 1000px;
+  cursor: pointer;
+  margin-bottom: 36px;
+  min-height: 220px;
+}
+
+.pwa-card-inner {
+  position: relative;
+  width: 100%;
+  min-height: 220px;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pwa-card-inner.pwa-flipped {
+  transform: rotateY(180deg);
+}
+
+.pwa-card {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 20px;
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Static card (loading state) */
+.pwa-card:not(.pwa-front):not(.pwa-back) {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  min-height: 220px;
+  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.04);
+  margin-bottom: 36px;
+}
+
+/* Front — dark (tagline) */
+.pwa-front {
+  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.04);
+}
+
+/* Back — light (content) */
+.pwa-back {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.2);
+  transform: rotateY(180deg);
+}
+
+.pwa-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.72rem;
+  color: #888;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.pwa-card-badge--light {
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.pwa-front-text {
+  color: #f1f5f9;
+  font-size: clamp(1rem, 4vw, 1.2rem);
+  font-style: italic;
+  font-weight: 500;
+  margin: 0 0 20px 0;
+}
+
+.pwa-divider {
+  width: 36px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+}
+
+.pwa-hint {
+  color: #555;
+  font-size: 0.75rem;
+  margin-top: 14px;
+}
+
+.pwa-back-text {
+  color: #0f172a;
+  font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+  line-height: 1.75;
+  font-style: italic;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* ─── Countdown ─────────────────────────────────────────────────── */
+.pwa-countdown {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 28px;
+}
+
+.pwa-countdown-svg {
+  transform: rotate(-90deg);
+}
+
+.pwa-countdown-ring {
+  transition: stroke-dashoffset 1s linear;
+}
+
+.pwa-countdown-number {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ─── Action Buttons ────────────────────────────────────────────── */
+.pwa-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pwa-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.pwa-btn--outline {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #aaa;
+}
+
+.pwa-btn--outline:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+
+.pwa-btn--solid {
+  background: #fff;
+  color: #000;
+  font-weight: 600;
+  padding: 12px 24px;
+}
+
+.pwa-btn--solid:hover {
+  background: #f1f5f9;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .pwa-card-wrapper,
+  .pwa-card:not(.pwa-front):not(.pwa-back) {
+    max-width: 100%;
+  }
+
+  .pwa-card {
+    padding: 28px 20px;
+  }
+
+  .pwa-actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .pwa-btn {
+    justify-content: center;
+    width: 100%;
+  }
+}
