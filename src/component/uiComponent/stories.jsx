@@ -11,6 +11,7 @@ function Stories() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showFormModal, setShowFormModal] = useState(false);
+  const [expandedIndexes, setExpandedIndexes] = useState(() => new Set());
 
   const loadTestimonials = () => {
     setLoading(true);
@@ -48,6 +49,36 @@ function Stories() {
       .toUpperCase();
   };
 
+  // Tracked purely by render position (index), not by data id — this
+  // guarantees each card toggles independently even if the API returns
+  // testimonials with missing or duplicate _id/id values.
+  const toggleExpanded = (index) => {
+    setExpandedIndexes((prev) => {
+      const next = new Set(prev);
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+      return next;
+    });
+  };
+
+  // Rough heuristic: only show "Read more" if the quote is long enough
+  // to likely exceed the clamp (avoids showing the toggle on short quotes).
+  const isLikelyTruncated = (quote) => (quote?.length || 0) > 220;
+
+  const shareStoryBtnStyle = {
+    position: 'relative',
+    width: 'fit-content',
+    padding: '10px 24px',
+    borderRadius: '999px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    margin: '0 auto',
+  };
+
   return (
     <section className="section-stories">
       <div className="section-title-wrapper">
@@ -56,8 +87,6 @@ function Stories() {
         <p className="section-subtitle">
           Real stories from people who transformed their lives with MeLifeCoaching.
         </p>
-
-        
       </div>
 
       {loading && (
@@ -73,9 +102,20 @@ function Stories() {
       )}
 
       {!loading && !error && testimonials.length === 0 && (
-        <p style={{ textAlign: 'center', color: '#6b7280' }}>
-          No testimonials yet — be the first to share your story!
-        </p>
+        <div style={{ textAlign: 'center', color: '#6b7280' }}>
+          <p>No testimonials yet — be the first to share your story!</p>
+
+          <div style={{ textAlign: 'center', marginTop: '45px' }}>
+            <button
+              type="button"
+              className="scroll-btn"
+              style={shareStoryBtnStyle}
+              onClick={() => setShowFormModal(true)}
+            >
+              <PenLine size={16} /> Share Your Story
+            </button>
+          </div>
+        </div>
       )}
 
       {!loading && !error && testimonials.length > 0 && (
@@ -89,37 +129,57 @@ function Stories() {
           </button>
 
           <div className="stories-grid" ref={scrollContainerRef}>
-            {testimonials.map((t) => (
-              <div className="story-card" key={t._id || t.id}>
-                <div className="quote-icon">
-                  <Quote size={20} />
-                </div>
-                <p className="story-quote">{t.quote}</p>
-                <div className="story-footer">
-                  <div className="stars">{'★'.repeat(t.stars || 5)}</div>
-                  <div className="story-header">
-                    {t.avatarUrl ? (
-                      <div
-                        className="story-avatar"
-                        style={{
-                          backgroundImage: `url(${t.avatarUrl})`,
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center',
-                        }}
-                      />
-                    ) : (
-                      <div className="story-avatar story-avatar--initials">
-                        {getInitials(t.name)}
+            {testimonials.map((t, index) => {
+              const reactKey = t._id || t.id || `story-${index}`;
+              const isExpanded = expandedIndexes.has(index);
+              const showToggle = isLikelyTruncated(t.quote);
+
+              return (
+                <div className="story-card" key={reactKey}>
+                  <div className="quote-icon">
+                    <Quote size={20} />
+                  </div>
+
+                  <p className={`story-quote ${isExpanded ? 'expanded' : ''}`}>
+                    {t.quote}
+                  </p>
+
+                  {showToggle && (
+                    <button
+                      type="button"
+                      className="story-readmore"
+                      onClick={() => toggleExpanded(index)}
+                    >
+                      {isExpanded ? 'Show less' : 'Read more'}
+                    </button>
+                  )}
+
+                  <div className="story-footer">
+                    <div className="stars">{'★'.repeat(t.stars || 5)}</div>
+                    <div className="story-header">
+                      {t.avatarUrl ? (
+                        <div
+                          className="story-avatar"
+                          style={{
+                            backgroundImage: `url(${t.avatarUrl})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                          }}
+                        />
+                      ) : (
+                        <div className="story-avatar story-avatar--initials">
+                          {getInitials(t.name)}
+                        </div>
+                      )}
+                      <div>
+                        <div className="story-name">{t.name}</div>
+                        <div className="story-role">{t.role}</div>
                       </div>
-                    )}
-                    <div>
-                      <div className="story-name">{t.name}</div>
-                      <div className="story-role">{t.role}</div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <button
@@ -130,24 +190,16 @@ function Stories() {
             <ChevronRight size={20} />
           </button>
 
-          <div style={{ textAlign: 'center', marginTop: '20px' }}> 
-          <button
-          type="button"
-          className="scroll-btn"
-          style={{
-            position: 'relative',
-            width: '350px',
-            padding: '10px 20px',
-            borderRadius: '999px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-          onClick={() => setShowFormModal(true)}
-        >
-          <PenLine size={16} /> Share Your Story
-        </button>
-        </div>
+          <div style={{ textAlign: 'center', marginTop: '20px' }}>
+            <button
+              type="button"
+              className="scroll-btn"
+              style={shareStoryBtnStyle}
+              onClick={() => setShowFormModal(true)}
+            >
+              <PenLine size={16} /> Share Your Story
+            </button>
+          </div>
         </div>
       )}
 
