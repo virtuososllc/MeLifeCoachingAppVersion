@@ -7,7 +7,7 @@ firebase.initializeApp({
   authDomain: "melifecoaching-v1.firebaseapp.com",
   projectId: "melifecoaching-v1",
   storageBucket: "melifecoaching-v1.firebasestorage.app",
-  messagingSenderId: "375595864401",
+  messagingSenderId: "375595864401",  
   appId: "1:375595864401:web:4d723dc6643022d8030370",
   measurementId: "G-BRH57PCFYZ"
 });
