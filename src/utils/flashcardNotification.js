@@ -20,21 +20,41 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0
 // ─────────────────────────────────────────────
 // SHARED: save token to your backend
 // ─────────────────────────────────────────────
+// ✅ FIX: now checks res.ok and returns a boolean.
+// Previously this always set fcm_registered = 'true' even if the
+// backend call failed (401 / 500 / CORS), which permanently poisoned
+// initPushNotifications() into thinking registration had succeeded
+// when nothing was ever saved server-side.
 async function saveTokenToBackend(fcmToken, platform = 'web') {
   const token = storage.get('token');
-  if (!token) return;
+  if (!token) {
+    console.warn('🔔 saveTokenToBackend: no auth token in storage, skipping');
+    return false;
+  }
 
-  await fetch(`${API_URL}/push/subscribe`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'token': token,
-    },
-    body: JSON.stringify({ fcmToken, platform }),
-  });
+  try {
+    const res = await fetch(`${API_URL}/push/subscribe`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'token': token,
+      },
+      body: JSON.stringify({ fcmToken, platform }),
+    });
 
-  storage.set('fcm_registered', 'true');
-  console.log(`FCM token saved to server ✅ [${platform}]`);
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      console.error(`🔔 FCM subscribe failed [${platform}]:`, res.status, text);
+      return false;
+    }
+
+    storage.set('fcm_registered', 'true');
+    console.log(`FCM token saved to server ✅ [${platform}]`);
+    return true;
+  } catch (err) {
+    console.error(`🔔 FCM subscribe request errored [${platform}]:`, err);
+    return false;
+  }
 }
 
 // ─────────────────────────────────────────────
@@ -138,13 +158,16 @@ export async function initNativePushListeners() {
   }
 
   // ─────────────────────────────────────────────
-  // ✅ FIX: Register ALL listeners BEFORE calling register()
+  // ✅ Register ALL listeners BEFORE calling register()
   // so no notification event is missed during initialization
   // ─────────────────────────────────────────────
 
   PushNotifications.addListener('registration', async (token) => {
     console.log('🔔 Native FCM token:', token.value);
-    if (storage.get('fcm_registered') !== 'true') {
+    // ✅ FIX: re-attempt save even if fcm_registered was set previously
+    // but the auth token wasn't available yet at that time. We now key
+    // off whether we actually have an auth token, not just the flag.
+    if (storage.get('fcm_registered') !== 'true' || storage.get('token')) {
       await saveTokenToBackend(token.value, Capacitor.getPlatform());
     }
   });
@@ -175,7 +198,7 @@ export async function initNativePushListeners() {
 
   console.log('🔔 All push listeners registered ✅ — now calling register()');
 
-  // ✅ FIX: Call register() AFTER listeners are attached
+  // ✅ Call register() AFTER listeners are attached
   await PushNotifications.register();
 
   console.log('🔔 PushNotifications.register() called ✅');
@@ -281,9 +304,21 @@ async function showSystemNotification(title, body, tapUrl) {
 // ─────────────────────────────────────────────
 // MAIN EXPORT: registers FCM token with backend (web + native)
 // ─────────────────────────────────────────────
+// ✅ FIX: no longer short-circuits purely on the fcm_registered flag.
+// It now also requires a valid auth token to be present, so a stale
+// "registered" flag left over from a failed attempt (or a previous
+// user on a shared device) doesn't block a legitimate re-registration.
 export async function initPushNotifications(firebaseSWReg = null) {
-  if (storage.get('fcm_registered') === 'true') return;
-  if (!storage.get('token')) return;
+  const authToken = storage.get('token');
+  if (!authToken) {
+    console.log('🔔 initPushNotifications: no auth token yet, skipping');
+    return;
+  }
+
+  if (storage.get('fcm_registered') === 'true') {
+    console.log('🔔 initPushNotifications: already registered, skipping');
+    return;
+  }
 
   try {
     if (Capacitor.isNativePlatform()) {
@@ -301,17 +336,24 @@ export async function initPushNotifications(firebaseSWReg = null) {
 // ─────────────────────────────────────────────
 // LOGOUT
 // ─────────────────────────────────────────────
+// ✅ FIX: always clear the local fcm_registered flag, even if the
+// unsubscribe request fails, so the NEXT login on this device (same
+// user or a different one) doesn't get silently blocked from
+// re-registering for push.
 export async function removePushNotifications() {
-  try {
-    const token = storage.get('token');
-    await fetch(`${API_URL}/push/unsubscribe`, {
-      method: 'DELETE',
-      headers: { 'token': token },
-    });
+  const token = storage.get('token');
 
-    storage.remove('fcm_registered');
+  try {
+    if (token) {
+      await fetch(`${API_URL}/push/unsubscribe`, {
+        method: 'DELETE',
+        headers: { 'token': token },
+      });
+    }
     console.log('Unsubscribed from push notifications ✅');
   } catch (err) {
     console.error('Unsubscribe failed:', err);
+  } finally {
+    storage.remove('fcm_registered');
   }
 }
